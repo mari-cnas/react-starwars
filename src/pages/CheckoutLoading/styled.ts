@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface IButtonProps {
   btnColor: boolean;
+  bgColor: boolean;
 }
 
 export const Bg = styled.div`

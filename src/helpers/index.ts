@@ -8,11 +8,11 @@ export const normalizeFormData = (data: FormType): NormalizedFormType => ({
   cnpj: Number(data.cnpj),
   cep: Number(data.cep),
   number: Number(data.number),
-  card_number: data.card_number.length ? Number(data.card_number) : undefined,
-  card_validity: data.card_validity.length
+  card_number: data?.card_number?.length ? Number(data.card_number) : undefined,
+  card_validity: data?.card_validity?.length
     ? Number(data.card_validity)
     : undefined,
-  card_password: data.card_password.length
+  card_password: data?.card_password?.length
     ? Number(data.card_password)
     : undefined,
 });

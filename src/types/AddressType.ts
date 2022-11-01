@@ -1,3 +1,3 @@
 export type AddressType = {
-  street: string;
+  logradouro: string;
 };

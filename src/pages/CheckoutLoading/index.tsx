@@ -23,12 +23,8 @@ import { FormType } from 'types/FormType';
 import rocket from '../../assets/r2d2-loading.gif';
 import { Bg, BtnBg, Form, FormBox, Load, Manufacturer, Name } from './styled';
 
-interface ButtonProps {
-  bgColor: boolean;
-  btnColor: boolean;
-}
 // const onSubmit: SubmitHandler<FormType> = (data) => console.log(data);
-const CheckoutLoading: React.FC<ButtonProps> = () => {
+const CheckoutLoading: React.FC = () => {
   const setTitle = useTitle();
   const { t, i18n } = useTranslation();
   const { isLoading, vehicle, fetchVehicle } = useVehicles();
@@ -78,7 +74,8 @@ const CheckoutLoading: React.FC<ButtonProps> = () => {
   }, [id]);
 
   useEffect(() => {
-    setValue('logradouro', address?.logradouro);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    setValue('logradouro', address?.logradouro!);
   }, [address, setValue]);
 
   return (
