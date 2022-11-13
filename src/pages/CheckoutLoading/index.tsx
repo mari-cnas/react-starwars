@@ -97,7 +97,7 @@ const CheckoutLoading: React.FC = () => {
           <ImArrowLeft className="mx-1" /> Checkout
         </Link>
       </Container>
-      <Container className="d-flex justify-content-between">
+      <Container className="d-flex justify-content-center">
         {isLoading && (
           <div className="d-flex flex-column my-5">
             <div className="d-flex flex-column align-self-center">
