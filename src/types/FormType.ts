@@ -27,9 +27,9 @@ export type NormalizedFormType = {
   logradouro: string;
   number: number;
   complement: string;
-  neighborhood: string;
-  city: string;
-  state: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
   card_name?: string;
   card_number?: number;
   card_validity?: number;
