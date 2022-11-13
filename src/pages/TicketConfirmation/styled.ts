@@ -20,7 +20,7 @@ export const Bg = styled.div`
 
   /* selected link */
   a:active {
-    color: #0000ff;
+    color: grey;
   }
 `;
 
@@ -46,7 +46,7 @@ export const Manufacturer = styled.h3`
 `;
 
 export const BtnBg = styled.button`
-  background-color: #cccccc;
+  background-color: #f4e426;
   font-size: 14px;
   border-radius: 4px;
   font-weight: bold;

@@ -1,8 +1,6 @@
 import { Table } from 'react-bootstrap';
 import styled from 'styled-components';
 
-import cover from '../../assets/space-motors-picture.png';
-
 export const CardBg = styled.div`
   background-color: black;
   color: white;

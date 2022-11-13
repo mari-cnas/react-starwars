@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 
 import { Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { ImArrowLeft, ImArrowRight } from 'react-icons/im';
 
 import { useVehicles } from 'context/VehiclesContext';
 
@@ -75,7 +76,7 @@ const Home: React.FC = () => {
         )}
         {!isLoading && (
           <div className="d-flex flex-column ">
-            <Row className="row-cols-1 row-cols-md-4 row-cols-lg-4 g-3 justify-content-center">
+            <Row className="row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 justify-content-center">
               {vehicles.map((vehicle) => (
                 <Col className="d-flex" key={vehicle.id}>
                   <VehicleCard vehicle={vehicle} />
@@ -87,8 +88,8 @@ const Home: React.FC = () => {
                 forcePage={currentPage - 1}
                 onPageChange={(p) => handlePageChange(p.selected + 1)}
                 pageCount={totalPages}
-                previousLabel="←"
-                nextLabel="→"
+                previousLabel={<ImArrowLeft />}
+                nextLabel={<ImArrowRight />}
                 className="my-5 list-unstyled flex-wrap"
               />
             )}

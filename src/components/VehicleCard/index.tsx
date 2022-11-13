@@ -40,12 +40,15 @@ const VehicleCard: React.FC<IBaseComponentProps> = ({ vehicle }) => {
           </tr>
           <tr>
             <th>Capacidade de carga</th>
-            <td>{vehicle.cargo_capacity}</td>
+            {vehicle.cargo_capacity !== 'unknown' && (
+              <td>{vehicle.cargo_capacity}</td>
+            )}
           </tr>
         </tbody>
       </VehicleTable>
-
-      <Name>€ {vehicle.cost_in_credits}</Name>
+      {vehicle.cost_in_credits !== 'unknown' && (
+        <Name>€ {vehicle.cost_in_credits}</Name>
+      )}
     </CardBg>
   );
 };

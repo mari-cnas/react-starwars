@@ -9,13 +9,13 @@ interface IBaseComponentProps {
   children?: React.ReactNode;
 }
 
-const Footer: React.FC<IBaseComponentProps> = ({ children }) => {
+const Footer: React.FC<IBaseComponentProps> = () => {
   return (
     <LogoDiv>
       <Container className="d-flex flex-column ">
         <div className="d-flex align-self-center">
           {' '}
-          <img src={logo} alt="logo" className="my-4" />
+          <img src={logo} alt="logo" className="my-4 img-fluid" />
         </div>
         <div className="d-flex justify-content-center mb-2">
           <Site>site por </Site> <Name> Mariana CN</Name>

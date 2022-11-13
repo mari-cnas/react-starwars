@@ -20,7 +20,7 @@ export const Bg = styled.div`
 
   /* selected link */
   a:active {
-    color: #0000ff;
+    color: grey;
   }
 `;
 
@@ -35,8 +35,11 @@ export const Name = styled.h4`
 export const FormBox = styled.div`
   background-color: black;
   color: white;
-
   border-radius: 5px;
+
+  p {
+    max-width: 300px;
+  }
 `;
 
 export const Manufacturer = styled.h3`

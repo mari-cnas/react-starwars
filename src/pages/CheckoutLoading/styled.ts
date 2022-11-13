@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
-interface IButtonProps {
-  btnColor: boolean;
-  bgColor: boolean;
+interface IButtonCreditCard {
+  active: string;
+}
+interface IButtonTicket {
+  active: string;
 }
 
 export const Bg = styled.div`
@@ -26,7 +28,7 @@ export const Bg = styled.div`
 
   /* selected link */
   a:active {
-    color: #0000ff;
+    color: grey;
   }
 `;
 
@@ -53,6 +55,10 @@ export const FormBox = styled.div`
   }
 
   & > div > p {
+    color: grey;
+  }
+
+  p:nth-child(n) {
     color: grey;
   }
 
@@ -88,12 +94,61 @@ export const Manufacturer = styled.h3`
 `;
 
 export const BtnBg = styled.button`
- background-color: {btnColor} ?   #cccccc : #f4e426;
-  font-size: 14px;
-  border-radius: 4px;
-  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background-color: #f4e426;
+  border-radius: 5px;
+  opacity: 1;
+  color: #000;
+  border: none;
 
-  
+  /* unvisited link */
+  a:link {
+    color: black;
+    text-decoration: none;
+  }
+
+  /* visited link */
+  a:visited {
+    color: black;
+  }
+
+  /* mouse over link */
+  a:hover {
+    color: grey;
+  }
 `;
 
-// ${({ coverImage }) => `url(${coverImage})`};
+export const ButtonCreditCard = styled.button<IButtonCreditCard>`
+  width: 100%;
+  height: 40px;
+  background: ${({ active }) =>
+      active === 'creditCard' ? '#F4E426' : '#cccccc'}
+    0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  opacity: 1;
+  border: none;
+  color: #000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+`;
+
+export const ButtonTicket = styled.button<IButtonTicket>`
+  width: 100%;
+  height: 40px;
+  background: ${({ active }) => (active === 'ticket' ? '#F4E426' : '#cccccc')}
+    0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  opacity: 1;
+  border: none;
+  color: #000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+`;

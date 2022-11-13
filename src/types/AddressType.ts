@@ -1,3 +1,6 @@
 export type AddressType = {
-  logradouro: string;
+  logradouro: string | undefined;
+  bairro: string;
+  localidade: string;
+  uf: string;
 };

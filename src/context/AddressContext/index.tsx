@@ -39,7 +39,6 @@ export const AddressProvider: React.FC<IAddressProviderProps> = ({
       try {
         const { data } = await cepApi.get(`/${cep}/json/`);
         setAddress(data);
-        console.log('data', data);
         if (data.erro) {
           setIsInvalidCep(true);
         }

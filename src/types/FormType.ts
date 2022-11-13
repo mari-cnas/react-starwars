@@ -8,9 +8,9 @@ export type FormType = {
   logradouro: string;
   number: string;
   complement: string;
-  neighborhood: string;
-  city: string;
-  state: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
   card_name?: string;
   card_number?: string;
   card_validity?: string;

@@ -9,12 +9,12 @@ interface IBaseComponentProps {
   children?: React.ReactNode;
 }
 
-const Header: React.FC<IBaseComponentProps> = ({ children }) => {
+const Header: React.FC<IBaseComponentProps> = () => {
   return (
     <>
       <LogoDiv>
         <Container>
-          <img src={logo} alt="logo" className="my-3" />
+          <img src={logo} alt="logo" className="my-3 img-fluid" />
         </Container>
       </LogoDiv>
       <MainBanner />

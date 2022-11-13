@@ -4,7 +4,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { ImArrowLeft } from 'react-icons/im';
 import InputMask from 'react-input-mask';
 import { Link, useParams } from 'react-router-dom';
 
@@ -21,7 +21,17 @@ import useTitle from 'hooks/useTitle';
 import { FormType } from 'types/FormType';
 
 import rocket from '../../assets/r2d2-loading.gif';
-import { Bg, BtnBg, Form, FormBox, Load, Manufacturer, Name } from './styled';
+import {
+  Bg,
+  BtnBg,
+  ButtonCreditCard,
+  ButtonTicket,
+  Form,
+  FormBox,
+  Load,
+  Manufacturer,
+  Name,
+} from './styled';
 
 // const onSubmit: SubmitHandler<FormType> = (data) => console.log(data);
 const CheckoutLoading: React.FC = () => {
@@ -32,7 +42,6 @@ const CheckoutLoading: React.FC = () => {
     useAddress();
   const [lastCep, setLastCep] = useState('');
   const [payment, setPayment] = useState('');
-  const [btnColor, setBtnColor] = useState(true);
   //  const navigate = useNavigate();
 
   const { id } = useParams();
@@ -46,7 +55,7 @@ const CheckoutLoading: React.FC = () => {
   } = useForm<FormType>();
 
   const handleFormSubmit = useCallback((data: FormType) => {
-    console.log('submitted', normalizeFormData(data));
+    normalizeFormData(data);
   }, []);
 
   const cepValue = watch('cep');
@@ -66,7 +75,7 @@ const CheckoutLoading: React.FC = () => {
   }, [cepValue, fetchAddress, lastCep]);
 
   useEffect(() => {
-    setTitle(`Checkout `); // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTitle(`Checkout`); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -74,19 +83,21 @@ const CheckoutLoading: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setValue('logradouro', address?.logradouro!);
+    setValue('logradouro', String(address?.logradouro ?? ''));
+    setValue('bairro', String(address?.bairro ?? ''));
+    setValue('localidade', String(address?.localidade ?? ''));
+    setValue('uf', String(address?.uf ?? ''));
   }, [address, setValue]);
 
   return (
     <Bg>
       <Header />
-      <Container>
+      <Container className="my-3">
         <Link to="/">
-          <AiOutlineArrowLeft /> Checkout
+          <ImArrowLeft className="mx-1" /> Checkout
         </Link>
       </Container>
-      <Container className="d-flex justify-content-center">
+      <Container className="d-flex justify-content-between">
         {isLoading && (
           <div className="d-flex flex-column my-5">
             <div className="d-flex flex-column align-self-center">
@@ -100,8 +111,8 @@ const CheckoutLoading: React.FC = () => {
 
           <Form onSubmit={handleSubmit(handleFormSubmit)}>
             <Row className="justify-content-between">
-              <Col>
-                <FormBox className="mx-2 my-5 px-3 py-3">
+              <Col className="d-flex">
+                <FormBox className="my-5 px-3 py-3 w-100">
                   <Name>Informações pessoais</Name>
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="name" className="form-label">
@@ -157,8 +168,8 @@ const CheckoutLoading: React.FC = () => {
                   {errors.cpf && <p>{errors.cpf.message}</p>}
                 </FormBox>
               </Col>
-              <Col>
-                <FormBox className="mx-2 my-5 px-3 py-3">
+              <Col className="d-flex">
+                <FormBox className="my-5 px-3 py-3 w-100">
                   <Name>Endereço</Name>
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="cep" className="form-label">
@@ -177,7 +188,6 @@ const CheckoutLoading: React.FC = () => {
                   {!isLoadingAddress && isInvalidCep && (
                     <span>{errors.cep && <p>{errors.cep.message}</p>}</span>
                   )}
-                  <br />
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="address" className="form-label">
                     Logradouro
@@ -190,7 +200,6 @@ const CheckoutLoading: React.FC = () => {
                     })}
                     placeholder=""
                   />
-
                   {errors.logradouro && <p>{errors.logradouro.message}</p>}
                   <div className="d-flex">
                     <div className="me-2">
@@ -231,12 +240,12 @@ const CheckoutLoading: React.FC = () => {
                     id="neighborhood"
                     type="text"
                     className="form-control"
-                    {...register('neighborhood', {
+                    {...register('bairro', {
                       required: 'Informe o seu bairro',
                     })}
                     placeholder=""
                   />
-                  {errors.neighborhood && <p>{errors.neighborhood.message}</p>}
+                  {errors.bairro && <p>{errors.bairro.message}</p>}
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="city" className="form-label">
                     Cidade
@@ -245,12 +254,12 @@ const CheckoutLoading: React.FC = () => {
                     id="city"
                     type="text"
                     className="form-control"
-                    {...register('city', {
+                    {...register('localidade', {
                       required: 'Informe a sua cidade',
                     })}
                     placeholder=""
                   />
-                  {errors.city && <p>{errors.city.message}</p>}
+                  {errors.localidade && <p>{errors.localidade.message}</p>}
                   {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                   <label htmlFor="state" className="form-label">
                     Estado
@@ -259,42 +268,38 @@ const CheckoutLoading: React.FC = () => {
                     id="state"
                     type="text"
                     className="form-control"
-                    {...register('state', {
+                    {...register('uf', {
                       required: 'Informe o seu estado',
                     })}
                     placeholder=""
                   />
-                  {errors.state && <p>{errors.state.message}</p>}
+                  {errors.uf && <p>{errors.uf.message}</p>}
                 </FormBox>
               </Col>
-              <Col>
-                <FormBox className="mx-2 my-5 px-3 py-3">
+              <Col className="d-flex flex-column">
+                <FormBox className=" my-5 px-3 py-3 ">
                   <Name>Forma de pagamento</Name>
-                  <div className="d-flex my-3 ">
-                    <BtnBg
-                      type="button"
-                      className="w-100 "
-                      style={{ backgroundColor: btnColor ? 'grey' : 'yellow' }}
-                      onClick={() => {
-                        setPayment('credit');
-                        setBtnColor(!btnColor);
-                      }}
-                    >
-                      Cartão de crédito
-                    </BtnBg>
-                    <BtnBg
-                      type="button"
-                      className="w-100"
-                      style={{ backgroundColor: btnColor ? 'grey' : 'yellow' }}
-                      onClick={() => {
-                        setPayment('boleto');
-                        setBtnColor(!btnColor);
-                      }}
-                    >
-                      Boleto Bancário
-                    </BtnBg>
-                  </div>
-                  {payment === 'credit' && (
+                  <Row className="justify-content-between row-cols-1 row-cols-lg-2">
+                    <Col>
+                      <ButtonCreditCard
+                        type="button"
+                        onClick={() => setPayment('creditCard')}
+                        active={payment}
+                      >
+                        Cartão de crédito
+                      </ButtonCreditCard>
+                    </Col>
+                    <Col>
+                      <ButtonTicket
+                        type="button"
+                        onClick={() => setPayment('ticket')}
+                        active={payment}
+                      >
+                        Boleto Bancário
+                      </ButtonTicket>
+                    </Col>
+                  </Row>
+                  {payment === 'creditCard' && (
                     <div>
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                       <label htmlFor="card_name" className="form-label">
@@ -368,25 +373,23 @@ const CheckoutLoading: React.FC = () => {
                   )}
                 </FormBox>
                 {vehicle && (
-                  <FormBox className="mx-2 my-5 px-3 py-3">
+                  <FormBox className="my-5 px-3 py-3 ">
                     <Manufacturer>{vehicle.manufacturer}</Manufacturer>
                     <Name>{vehicle.model}</Name>
-                    <Name>€ {vehicle.cost_in_credits}</Name>
-                    <BtnBg
-                      type="submit"
-                      className="my-2 w-100"
-                      style={{ backgroundColor: btnColor ? 'grey' : 'yellow' }}
-                      onClick={() => {
-                        setBtnColor(!btnColor);
-                      }}
-                    >
-                      Finalizar compra
-                    </BtnBg>
-                    {payment === 'credit' && (
-                      <Link to="/cardconfirmation">Finalizar Compra</Link>
+                    {vehicle.cost_in_credits === 'unknown' ? (
+                      ''
+                    ) : (
+                      <Name>€ {vehicle.cost_in_credits}</Name>
                     )}
-                    {payment == 'boleto' && (
-                      <Link to="/ticketconfirmation">Finalizar Compra</Link>
+                    {payment === 'creditCard' && (
+                      <BtnBg type="submit" className="my-2 w-100">
+                        <Link to="/cardconfirmation">Finalizar compra</Link>
+                      </BtnBg>
+                    )}
+                    {payment === 'ticket' && (
+                      <BtnBg type="submit" className="my-2 w-100">
+                        <Link to="/ticketconfirmation">Finalizar compra</Link>
+                      </BtnBg>
                     )}
                   </FormBox>
                 )}
@@ -401,8 +404,3 @@ const CheckoutLoading: React.FC = () => {
 };
 
 export default memo(CheckoutLoading);
-
-//  onSubmit={() =>
-// navigate('/cardconfirmation', { replace: true })
-// }
-// <Link to={`/checkout/${vehicle.id}/cardconfirmation`}>
