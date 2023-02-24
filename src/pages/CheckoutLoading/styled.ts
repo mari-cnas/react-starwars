@@ -7,31 +7,6 @@ interface IButtonTicket {
   active: string;
 }
 
-export const Bg = styled.div`
-  background-color: #282a36;
-
-  /* unvisited link */
-  a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  /* visited link */
-  a:visited {
-    color: white;
-  }
-
-  /* mouse over link */
-  a:hover {
-    color: grey;
-  }
-
-  /* selected link */
-  a:active {
-    color: grey;
-  }
-`;
-
 export const Load = styled.h3`
   color: white;
 `;
@@ -151,4 +126,8 @@ export const ButtonTicket = styled.button<IButtonTicket>`
   margin-bottom: 10px;
   font-size: 14.5px;
   font-weight: 500;
+`;
+
+export const ErrorMsg = styled.p`
+  color: red;
 `;

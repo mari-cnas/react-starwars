@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
 import { Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import logo from '../../assets/space-motors-logo.png';
 import { LogoDiv, MainBanner } from './styled';
@@ -14,7 +15,9 @@ const Header: React.FC<IBaseComponentProps> = () => {
     <>
       <LogoDiv>
         <Container>
-          <img src={logo} alt="logo" className="my-3 img-fluid" />
+          <Link to="/">
+            <img src={logo} alt="logo" className="my-3 img-fluid" />
+          </Link>
         </Container>
       </LogoDiv>
       <MainBanner />

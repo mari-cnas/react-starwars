@@ -16,6 +16,7 @@ import { VehicleType } from 'types/VehicleType';
 interface IContextProps {
   vehicles: VehicleType[];
   isLoading: boolean;
+  error: string | null;
   totalPages: number;
   currentPage: number;
   fetchVehicles: (page: number, search?: string) => Promise<void>;
@@ -44,6 +45,7 @@ export const VehiclesProvider: React.FC<IVehiclesProviderProps> = ({
 
     setCurrentPage(page);
     setIsLoading(true);
+    setError(null);
 
     try {
       const {
@@ -64,13 +66,14 @@ export const VehiclesProvider: React.FC<IVehiclesProviderProps> = ({
 
   const fetchVehicle = useCallback(async (charId: number | string) => {
     setIsLoading(true);
+    setError(null);
 
     try {
       const { data } = await Api.get(`/vehicles/${charId}`);
 
       setVehicle(data);
     } catch {
-      console.error('DEU ERRO');
+      setError('Não foi possível carregar o veículo');
     } finally {
       setIsLoading(false);
     }
@@ -82,6 +85,7 @@ export const VehiclesProvider: React.FC<IVehiclesProviderProps> = ({
         () => ({
           vehicles,
           isLoading,
+          error,
           totalPages,
           currentPage,
           fetchVehicles,
@@ -91,6 +95,7 @@ export const VehiclesProvider: React.FC<IVehiclesProviderProps> = ({
         [
           vehicles,
           isLoading,
+          error,
           totalPages,
           currentPage,
           fetchVehicles,

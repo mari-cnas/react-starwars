@@ -1,5 +1,10 @@
 import { Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+interface IVehicleProps {
+  disabled: string;
+}
 
 export const CardBg = styled.div`
   background-color: black;
@@ -22,4 +27,8 @@ export const Manufacturer = styled.h3`
 export const VehicleTable = styled(Table)`
   color: white;
   font-size: 14px;
+`;
+
+export const VehicleLink = styled(Link)<IVehicleProps>`
+  pointer-events: ${({ disabled }) => disabled === 'unknown' && 'none'};
 `;

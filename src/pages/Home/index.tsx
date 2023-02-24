@@ -1,7 +1,9 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FaSearch } from 'react-icons/fa';
 import { ImArrowLeft, ImArrowRight } from 'react-icons/im';
 
 import { useVehicles } from 'context/VehiclesContext';
@@ -12,9 +14,11 @@ import VehicleCard from 'components/VehicleCard';
 
 import useTitle from 'hooks/useTitle';
 
+import { Wrapper } from 'styles/Globalstyles';
+
 import rocket from '../../assets/r2d2-loading.gif';
 import {
-  Bg,
+  ClearBtn,
   Load,
   SearchBtn,
   SearchDiv,
@@ -29,47 +33,63 @@ const Home: React.FC = () => {
     useVehicles();
 
   useEffect(() => {
-    setTitle(t('home.head-title'));
+    setTitle(t(''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.resolvedLanguage]);
 
   const [search, setSearch] = useState('');
+  const [hasSearch, setHasSearch] = useState(false);
 
   const handlePageChange = useCallback(
     (page: number) => fetchVehicles(page, search),
     [fetchVehicles, search],
   );
 
-  const handleSearch = useCallback(
-    () => fetchVehicles(1, search),
-    [fetchVehicles, search],
-  );
+  const handleSearch = useCallback(() => {
+    fetchVehicles(1, search);
+    setHasSearch(true);
+  }, [fetchVehicles, search, setHasSearch]);
+
+  const handleClean = useCallback(() => {
+    fetchVehicles(1);
+    setSearch('');
+    setHasSearch(false);
+  }, [fetchVehicles, setHasSearch]);
 
   return (
-    <Bg>
+    <Wrapper>
       <Header />
       <Container className="d-flex flex-column ">
         <SearchDiv className="d-flex justify-content-center mb-3 py-4">
-          <Row className="w-100">
-            <Col md={8}>
-              <SearchTxt
-                type="text"
-                placeholder="Digite o nome ou modelo do veículo"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Col>
-            <Col md={4}>
-              <SearchBtn type="button" onClick={handleSearch}>
-                Buscar
-              </SearchBtn>
-            </Col>
-          </Row>
+          <SearchTxt
+            type="text"
+            placeholder="Digite o nome ou modelo do veículo"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="py-1 px-2 mx-3 border-0"
+          />
+          <SearchBtn
+            type="button"
+            onClick={handleSearch}
+            className="me-3 border-0"
+            disabled={!search?.length}
+          >
+            <FaSearch size={18} />
+          </SearchBtn>
+          {hasSearch === true && (
+            <ClearBtn
+              type="button"
+              onClick={handleClean}
+              className="me-3 border-0"
+            >
+              <AiOutlineCloseCircle size={18} />
+            </ClearBtn>
+          )}
         </SearchDiv>
         {isLoading && (
           <div className="d-flex flex-column my-5">
-            <div className="d-flex flex-column align-self-center">
-              <img src={rocket} alt="logo" className="my-3 align-self-center" />
+            <div className="d-flex flex-column align-items-center justify-content-center">
+              <img src={rocket} alt="logo" className="my-3 " />
               <Load>Carregando veículos...</Load>
             </div>
           </div>
@@ -97,7 +117,7 @@ const Home: React.FC = () => {
         )}
       </Container>
       <Footer />
-    </Bg>
+    </Wrapper>
   );
 };
 

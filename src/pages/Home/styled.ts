@@ -1,31 +1,6 @@
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 
-export const Bg = styled.div`
-  background-color: #282a36;
-
-  /* unvisited link */
-  a:link {
-    color: #333;
-    text-decoration: none;
-  }
-
-  /* visited link */
-  a:visited {
-    color: #333;
-  }
-
-  /* mouse over link */
-  a:hover {
-    color: grey;
-  }
-
-  /* selected link */
-  a:active {
-    color: #0000ff;
-  }
-`;
-
 export const Load = styled.h3`
   color: white;
 `;
@@ -65,7 +40,15 @@ export const SearchDiv = styled.div`
 export const SearchBtn = styled.button`
   background-color: #f4e426;
   border-radius: 5px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+export const ClearBtn = styled.button`
+  background-color: #f4e426;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
 `;
 
 export const SearchTxt = styled.input`

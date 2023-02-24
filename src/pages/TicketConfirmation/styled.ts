@@ -1,29 +1,5 @@
 import styled from 'styled-components';
 
-export const Bg = styled.div`
-  background-color: #282a36;
-
-  a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  /* visited link */
-  a:visited {
-    color: white;
-  }
-
-  /* mouse over link */
-  a:hover {
-    color: grey;
-  }
-
-  /* selected link */
-  a:active {
-    color: grey;
-  }
-`;
-
 export const Load = styled.h3`
   color: white;
 `;
@@ -47,7 +23,12 @@ export const Manufacturer = styled.h3`
 
 export const BtnBg = styled.button`
   background-color: #f4e426;
-  font-size: 14px;
-  border-radius: 4px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  padding: 20px;
+  font-size: 14.5px;
+  font-weight: 500;
 `;

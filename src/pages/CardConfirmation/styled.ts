@@ -1,29 +1,5 @@
 import styled from 'styled-components';
 
-export const Bg = styled.div`
-  background-color: #282a36;
-
-  a:link {
-    color: white;
-    text-decoration: none;
-  }
-
-  /* visited link */
-  a:visited {
-    color: white;
-  }
-
-  /* mouse over link */
-  a:hover {
-    color: grey;
-  }
-
-  /* selected link */
-  a:active {
-    color: grey;
-  }
-`;
-
 export const Load = styled.h3`
   color: white;
 `;
