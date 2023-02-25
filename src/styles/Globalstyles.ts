@@ -9,6 +9,7 @@ export default createGlobalStyle`
 }
 html,body,#root{
     min-height: 100vh;
+    --bs-body-color: red;
 }
 `;
 
@@ -37,5 +38,9 @@ export const Wrapper = styled.div`
   /* selected link */
   a:active {
     color: grey;
+  }
+
+  h2 {
+    color: red;
   }
 `;

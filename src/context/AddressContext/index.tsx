@@ -6,8 +6,6 @@ import {
   useState,
 } from 'react';
 
-import { useForm, UseFormSetValue } from 'react-hook-form';
-
 import cepApi from 'services/cepApi';
 
 import { AddressType } from 'types/AddressType';

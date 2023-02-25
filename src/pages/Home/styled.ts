@@ -54,4 +54,8 @@ export const ClearBtn = styled.button`
 export const SearchTxt = styled.input`
   border-radius: 5px;
   width: 100%;
+
+  @media (max-width: 576px) {
+    font-size: 0.7rem;
+  }
 `;

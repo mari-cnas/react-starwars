@@ -25,40 +25,14 @@ export const FormBox = styled.div`
   width: 100%;
   border-radius: 5px;
 
-  & > p {
-    color: grey;
-  }
-
-  & > div > p {
-    color: grey;
-  }
-
-  p:nth-child(n) {
-    color: grey;
-  }
-
-  & > input {
+  input:nth-child(n) {
     background-color: #333333;
     border: none;
     color: white;
   }
 
-  & > div > input {
-    background-color: #333333;
-    border: none;
-    color: white;
-  }
-
-  & > div > div > input {
-    background-color: #333333;
-    border: none;
-    color: white;
-  }
-
-  & > div > div > div > input {
-    background-color: #333333;
-    border: none;
-    color: white;
+  input:invalid {
+    border: 2px dashed red;
   }
 `;
 
@@ -66,6 +40,11 @@ export const Manufacturer = styled.h3`
   background-color: black;
   color: #707070;
   font-size: 14px;
+`;
+
+export const ErrorMsg = styled.p`
+  color: red;
+  font-size: 0.8rem;
 `;
 
 export const BtnBg = styled.button`
@@ -126,8 +105,4 @@ export const ButtonTicket = styled.button<IButtonTicket>`
   margin-bottom: 10px;
   font-size: 14.5px;
   font-weight: 500;
-`;
-
-export const ErrorMsg = styled.p`
-  color: red;
 `;

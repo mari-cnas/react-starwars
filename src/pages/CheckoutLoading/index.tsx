@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ImArrowLeft } from 'react-icons/im';
 import InputMask from 'react-input-mask';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useAddress } from 'context/AddressContext';
 import { useVehicles } from 'context/VehiclesContext';
@@ -44,20 +44,29 @@ const CheckoutLoading: React.FC = () => {
     useAddress();
   const [lastCep, setLastCep] = useState('');
   const [payment, setPayment] = useState('');
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty },
+    formState: { errors },
     watch,
     setValue,
   } = useForm<FormType>();
 
-  const handleFormSubmit = useCallback((data: FormType) => {
-    normalizeFormData(data);
-  }, []);
+  const handleFormSubmit = useCallback(
+    (data: FormType) => {
+      normalizeFormData(data);
+      navigate(
+        payment === 'creditCard'
+          ? `/creditcardpayment/${id}`
+          : `/ticketpayment/${id}`,
+      );
+    },
+    [id, navigate, payment],
+  );
 
   const cepValue = watch('cep');
 
@@ -103,7 +112,7 @@ const CheckoutLoading: React.FC = () => {
       <Container className="d-flex justify-content-center flex-grow-1">
         {isLoading && (
           <div className="d-flex flex-column align-items-center justify-content-center  my-5">
-            <img src={rocket} alt="logo" className="my-3 align-items-center " />
+            <img src={rocket} alt="logo" className="my-3  " />
             <Load>Carregando veículo...</Load>
           </div>
         )}
@@ -112,9 +121,9 @@ const CheckoutLoading: React.FC = () => {
           /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
           <div className="d-flex flex-column align-items-center justify-content-center  my-2 w-100">
             <Form onSubmit={handleSubmit(handleFormSubmit)} className="w-100">
-              <Row className="justify-content-between ">
+              <Row className="justify-content-between flex-column flex-lg-row">
                 <Col className="d-flex">
-                  <FormBox className="my-5 px-3 py-3 ">
+                  <FormBox className="my-3 my-lg-5 px-3 py-3 ">
                     <Name>Informações pessoais</Name>
                     <div className="my-3">
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -189,7 +198,7 @@ const CheckoutLoading: React.FC = () => {
                   </FormBox>
                 </Col>
                 <Col className="d-flex">
-                  <FormBox className="my-5 px-3 py-3 ">
+                  <FormBox className="my-3 my-lg-5 px-3 py-3 ">
                     <Name>Endereço</Name>
                     <div className="my-3">
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -201,7 +210,7 @@ const CheckoutLoading: React.FC = () => {
                         mask="99999-999"
                         className="form-control"
                         {...register('cep', {
-                          required: 'Informe o seu CPF',
+                          required: 'Informe o seu CEP',
                         })}
                         placeholder=""
                       />
@@ -209,7 +218,11 @@ const CheckoutLoading: React.FC = () => {
                         <span className="my-2">Carregando...</span>
                       )}
                       {!isLoadingAddress && isInvalidCep && (
-                        <span>{errors.cep && <p>{errors.cep.message}</p>}</span>
+                        <span>
+                          {errors.cep && (
+                            <ErrorMsg>{errors.cep.message}</ErrorMsg>
+                          )}
+                        </span>
                       )}
                     </div>
                     <div className="my-3">
@@ -225,7 +238,9 @@ const CheckoutLoading: React.FC = () => {
                         })}
                         placeholder=""
                       />
-                      {errors.logradouro && <p>{errors.logradouro.message}</p>}
+                      {errors.logradouro && (
+                        <ErrorMsg>{errors.logradouro.message}</ErrorMsg>
+                      )}
                     </div>
                     <div className="d-flex my-3">
                       <div className="me-2">
@@ -242,7 +257,9 @@ const CheckoutLoading: React.FC = () => {
                           })}
                           placeholder=""
                         />
-                        {errors.number && <p>{errors.number.message}</p>}
+                        {errors.number && (
+                          <ErrorMsg>{errors.number.message}</ErrorMsg>
+                        )}
                       </div>
                       <div>
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -272,7 +289,9 @@ const CheckoutLoading: React.FC = () => {
                         })}
                         placeholder=""
                       />
-                      {errors.bairro && <p>{errors.bairro.message}</p>}
+                      {errors.bairro && (
+                        <ErrorMsg>{errors.bairro.message}</ErrorMsg>
+                      )}
                     </div>
                     <div className="my-3">
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -288,7 +307,9 @@ const CheckoutLoading: React.FC = () => {
                         })}
                         placeholder=""
                       />
-                      {errors.localidade && <p>{errors.localidade.message}</p>}
+                      {errors.localidade && (
+                        <ErrorMsg>{errors.localidade.message}</ErrorMsg>
+                      )}
                     </div>
                     <div className="my-3">
                       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -304,14 +325,14 @@ const CheckoutLoading: React.FC = () => {
                         })}
                         placeholder=""
                       />
-                      {errors.uf && <p>{errors.uf.message}</p>}
+                      {errors.uf && <ErrorMsg>{errors.uf.message}</ErrorMsg>}
                     </div>
                   </FormBox>
                 </Col>
                 <Col className="d-flex flex-column">
-                  <FormBox className=" mt-5 px-3 py-3 ">
+                  <FormBox className=" my-3 my-lg-5 px-3 py-3 ">
                     <Name>Forma de pagamento</Name>
-                    <Row className="justify-content-between row-cols-1 row-cols-lg-2">
+                    <Row className="justify-content-between flex-column flex-xl-row row-cols-1 row-cols-xl-2">
                       <Col>
                         <ButtonCreditCard
                           type="button"
@@ -333,39 +354,43 @@ const CheckoutLoading: React.FC = () => {
                     </Row>
                     {payment === 'creditCard' && (
                       <div>
-                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                        <label htmlFor="card_name" className="form-label">
-                          Nome do titular do cartão
-                        </label>
-                        <input
-                          id="card_name"
-                          type="text"
-                          className="form-control"
-                          {...register('card_name', {
-                            required: 'Informe o nome do titular',
-                          })}
-                          placeholder=""
-                        />
-                        {errors.card_name && (
-                          <ErrorMsg>{errors.card_name.message}</ErrorMsg>
-                        )}
-                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-                        <label htmlFor="card_number" className="form-label">
-                          Número do cartão
-                        </label>
-                        <InputMask
-                          id="card_number"
-                          mask="9999 9999 9999 9999"
-                          className="form-control"
-                          {...register('card_number', {
-                            required: 'Informe o número do cartão',
-                          })}
-                          placeholder=""
-                        />
-                        {errors.card_number && (
-                          <ErrorMsg>{errors.card_number.message}</ErrorMsg>
-                        )}
-                        <div className="d-flex">
+                        <div className="my-3">
+                          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                          <label htmlFor="card_name" className="form-label">
+                            Nome do titular do cartão
+                          </label>
+                          <input
+                            id="card_name"
+                            type="text"
+                            className="form-control"
+                            {...register('card_name', {
+                              required: 'Informe o nome do titular',
+                            })}
+                            placeholder=""
+                          />
+                          {errors.card_name && (
+                            <ErrorMsg>{errors.card_name.message}</ErrorMsg>
+                          )}
+                        </div>
+                        <div className="my-3">
+                          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                          <label htmlFor="card_number" className="form-label">
+                            Número do cartão
+                          </label>
+                          <InputMask
+                            id="card_number"
+                            mask="9999 9999 9999 9999"
+                            className="form-control"
+                            {...register('card_number', {
+                              required: 'Informe o número do cartão',
+                            })}
+                            placeholder=""
+                          />
+                          {errors.card_number && (
+                            <ErrorMsg>{errors.card_number.message}</ErrorMsg>
+                          )}
+                        </div>
+                        <div className="d-flex my-3">
                           <div className="me-2">
                             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                             <label
@@ -395,14 +420,14 @@ const CheckoutLoading: React.FC = () => {
                               htmlFor="card_password"
                               className="form-label"
                             >
-                              Código de Segurança
+                              CVC
                             </label>
                             <InputMask
                               id="card_password"
                               mask="999"
                               className="form-control"
                               {...register('card_password', {
-                                required: 'Informe o vódigo de segurança',
+                                required: 'Informe o código de segurança',
                               })}
                               placeholder=""
                             />
@@ -417,7 +442,7 @@ const CheckoutLoading: React.FC = () => {
                     )}
                   </FormBox>
                   {vehicle && (
-                    <FormBox className="my-5 px-3 py-3 ">
+                    <FormBox className="my-3 my-lg-5 px-3 py-3 ">
                       <Manufacturer>{vehicle.manufacturer}</Manufacturer>
                       <Name>{vehicle.model}</Name>
                       {vehicle.cost_in_credits === 'unknown' ? (
@@ -431,26 +456,16 @@ const CheckoutLoading: React.FC = () => {
                           className="my-2 "
                           disabled={hasErrors}
                         >
-                          <Link
-                            to="/cardconfirmation"
-                            style={{ color: 'black' }}
-                          >
-                            Finalizar compra
-                          </Link>
+                          Finalizar compra
                         </BtnBg>
                       )}
                       {payment === 'ticket' && (
                         <BtnBg
                           type="submit"
                           className="my-2 "
-                          disabled={hasErrors || !isDirty}
+                          disabled={hasErrors}
                         >
-                          <Link
-                            to="/ticketconfirmation"
-                            style={{ color: 'black' }}
-                          >
-                            Finalizar compra
-                          </Link>
+                          Finalizar compra
                         </BtnBg>
                       )}
                     </FormBox>
